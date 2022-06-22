@@ -10,6 +10,9 @@ import SnapKit
 
 class RightMenu: UIView {
         // MARK: - money label
+    
+//    var money = Money()
+    
     lazy var moneyLabel: UILabel = {
         var view = UILabel()
         view.text = "123 456"
@@ -21,7 +24,6 @@ class RightMenu: UIView {
     // MARK: - other
     lazy var spinButton: SpinButton = {
         var button = SpinButton()
-        button.addTarget(self, action: #selector(textset), for: .touchUpInside)
         return button
     }()
     
@@ -59,6 +61,7 @@ class RightMenu: UIView {
         addSubview(stepper)
         addSubview(topChest)
         addSubview(moneyView)
+//        moneyLabel.text = "\(money.money)"
         moneyView.addSubview(moneyLabel)
         setGradientMoneyView()
 
@@ -68,9 +71,7 @@ class RightMenu: UIView {
     override func layoutSubviews() {
         self.roundCorners(corners: [.topLeft], radius: 60)
     }
-    @objc func textset() {
-        print("works")
-    }
+
     fileprivate func activateConstraints() {
         stepper.snp.makeConstraints { make in
 

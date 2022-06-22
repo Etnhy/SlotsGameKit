@@ -10,14 +10,52 @@ import SnapKit
 
 class PlayingViewController: ParentViewController {
 
-    
+    var gameName: String!
+
     fileprivate let spacingStackView: CGFloat = 30
+    fileprivate let imagesNames: Int = 9
     
+
+    
+    lazy var images01: [UIImageView] = {
+     var images = [UIImageView]()
+        for i in 1...5 {
+            var img = UIImageView()
+            let num = Int.random(in: 1...imagesNames)
+            img.image = UIImage(named: "\(gameName!)_\(num)@4x")
+            images.append(img)
+        }
+        
+       return images
+    }()
+    lazy var images02: [UIImageView] = {
+     var images = [UIImageView]()
+        for i in 1...5 {
+            var img = UIImageView()
+            let num = Int.random(in: 1...imagesNames)
+            img.image = UIImage(named: "\(gameName!)_\(num)@4x")
+            images.append(img)
+        }
+        
+       return images
+    }()
+    
+    lazy var images03: [UIImageView] = {
+     var images = [UIImageView]()
+        for i in 1...5 {
+            var img = UIImageView()
+            let num = Int.random(in: 1...imagesNames)
+            img.image = UIImage(named: "\(gameName!)_\(num)@4x")
+            images.append(img)
+        }
+        
+       return images
+    }()
     
         // MARK: -  slots stacks
     lazy var StackView01: UIStackView = {
-        var top = UIStackView(arrangedSubviews: makePackImages(name: gameName!))
-        top.axis = .vertical
+        var top = UIStackView(arrangedSubviews: images01) //makePackImages(name: gameName!)
+        top.axis = .horizontal
         top.distribution = .fillEqually
         
         top.spacing = spacingStackView
@@ -25,8 +63,8 @@ class PlayingViewController: ParentViewController {
     }()
     
     lazy var StackView02: UIStackView = {
-        var top = UIStackView(arrangedSubviews: makePackImages(name: gameName!))
-        top.axis = .vertical
+        var top = UIStackView(arrangedSubviews: images02)
+        top.axis = .horizontal
         top.distribution = .fillEqually
         
         top.spacing = spacingStackView
@@ -34,26 +72,8 @@ class PlayingViewController: ParentViewController {
     }()
     
     lazy var StackView03: UIStackView = {
-        var top = UIStackView(arrangedSubviews: makePackImages(name: gameName!))
-        top.axis = .vertical
-        top.distribution = .fillEqually
-        
-        top.spacing = spacingStackView
-        return top
-    }()
-    
-    lazy var StackView04: UIStackView = {
-        var top = UIStackView(arrangedSubviews: makePackImages(name: gameName!))
-        top.axis = .vertical
-        top.distribution = .fillEqually
-        
-        top.spacing = spacingStackView
-        return top
-    }()
-    
-    lazy var StackView05: UIStackView = {
-        var top = UIStackView(arrangedSubviews: makePackImages(name: gameName!))
-        top.axis = .vertical
+        var top = UIStackView(arrangedSubviews: images03)
+        top.axis = .horizontal
         top.distribution = .fillEqually
         
         top.spacing = spacingStackView
@@ -62,32 +82,29 @@ class PlayingViewController: ParentViewController {
     
     lazy var mainStackView: UIStackView = {
         var top = UIStackView()
-        top.axis = .horizontal
+        top.axis = .vertical
         top.distribution = .fillEqually
         top.spacing = spacingStackView
         top.addArrangedSubview(StackView01)
         top.addArrangedSubview(StackView02)
         top.addArrangedSubview(StackView03)
-        top.addArrangedSubview(StackView04)
-        top.addArrangedSubview(StackView05)
         return top
     }()
     
     let winMoneyLabel: UILabel = {
         var label = UILabel()
-        label.text = "WIN +500"
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .white
         return label
     }()
 
-    let rightMenu: RightMenu = {
+    lazy var rightMenu: RightMenu = {
         var menu = RightMenu()
+        menu.spinButton.addTarget(self, action: #selector(spinAndAssignImages), for: .touchUpInside)
         return menu
     }()
 
     
-    var gameName: String!
     
     init(gameName: String?) {
         self.gameName = gameName
@@ -104,6 +121,7 @@ class PlayingViewController: ParentViewController {
 
         view.backgroundColor = .cyan
         addSubviews()
+//        spinner()
         
     }
 
@@ -112,22 +130,11 @@ class PlayingViewController: ParentViewController {
         view.addSubview(mainStackView)
         view.addSubview(winMoneyLabel)
         view.addSubview(rightMenu)
+        rightMenu.moneyLabel.text = "\(money)"
         activateConstraints()
+        
     }
     
-    func makePackImages(name: String) -> [UIImageView] { //name: String! = "first"
-        var images = [UIImageView]()
-        for  _ in 0...2 {
-            let view = UIImageView()
-            let randomNubmer = Int.random(in: 1...9)
-            view.image = UIImage(named: "\(name)_\(randomNubmer)@4x")?.withRenderingMode(.alwaysOriginal)
-            images.append(view)
-        }
-        return images
-    }
-
-
-
     
     fileprivate func setupView() {
         let imageView = UIImageView()
@@ -140,14 +147,109 @@ class PlayingViewController: ParentViewController {
     }
         // MARK: - Actions
     @objc func spinAndAssignImages() {
-         
-     }
+        var firstSlots: [Int] = []
+        var secondSlots: [Int] = []
+        var thirdSlots: [Int] = []
+
+        self.money -= 100
+        rightMenu.moneyLabel.text = "\(money)"
+        
+        for i in images01 {
+            let number = Int.random(in: 1...9)
+            i.image = UIImage(named: "\(gameName!)_\(number)@4x")
+            let duration = Double.random(in: 0.2...0.4 )
+            UIView.transition(with: i, duration: duration , options: .transitionFlipFromTop, animations: nil, completion: nil)
+            firstSlots.append(number)
+        }
+        
+        
+        for i in images02 {
+            let number = Int.random(in: 1...9)
+            i.image = UIImage(named: "\(gameName!)_\(number)@4x")
+            let duration = Double.random(in: 0.2...0.4 )
+            UIView.transition(with: i, duration: duration , options: .transitionFlipFromTop, animations: nil, completion: nil)
+            secondSlots.append(number)
+        }
+        
+        for i in images03 {
+            let number = Int.random(in: 1...9)
+            i.image = UIImage(named: "\(gameName!)_\(number)@4x")
+            let duration = Double.random(in: 0.2...0.4 )
+            UIView.transition(with: i, duration: duration , options: .transitionFlipFromTop, animations: nil, completion: nil)
+            thirdSlots.append(number)
+        }
+        
+        searchWin(slots: firstSlots)
+        searchWin(slots: secondSlots)
+        searchWin(slots: thirdSlots)
+    }
     
+    func searchWin(slots: [Int]) {
+        if slots[0] == slots[1] && slots[1] == slots[2] && slots[2] == slots[3] && slots[3] == slots[4] {
+            print("da dadb")
+            self.money += 1000
+            self.winMoneyLabel.text = "WIN +1000"
+            self.rightMenu.moneyLabel.text = "\(money)"
+
+            
+        } else if slots[0] == slots[1] && slots[1] == slots[2] && slots[2] == slots[3] {
+            self.money += 700
+            self.winMoneyLabel.text = "WIN +700"
+            self.rightMenu.moneyLabel.text = "\(money)"
+
+
+        } else if slots[0] == slots[1] && slots[1] == slots[2] {
+            self.money += 500
+            self.winMoneyLabel.text = "WIN +500"
+            self.rightMenu.moneyLabel.text = "\(money)"
+
+
+        } else if slots[0] == slots[1] && slots[1] == slots[2] {
+            self.money += 300
+            self.winMoneyLabel.text = "WIN +300"
+            self.rightMenu.moneyLabel.text = "\(money)"
+
+
+        } else if slots[0] == slots[1]  {
+            self.money += 200
+            self.winMoneyLabel.text = "WIN +200"
+            self.rightMenu.moneyLabel.text = "\(money)"
+
+        }
+    }
+    
+    fileprivate func makeLabels(_ money: Int) {
+        
+    }
+    fileprivate func spinner() {
+        for i in images01 {
+            let number = Int.random(in: 1...9)
+            i.image = UIImage(named: "\(gameName!)_\(number)@4x")
+            let duration = Double.random(in: 0.2...0.4 )
+            UIView.transition(with: i, duration: duration , options: .transitionFlipFromTop, animations: nil, completion: nil)
+        }
+        for i in images02 {
+            let number = Int.random(in: 1...9)
+            i.image = UIImage(named: "\(gameName!)_\(number)@4x")
+            let duration = Double.random(in: 0.2...0.4 )
+            UIView.transition(with: i, duration: duration , options: .transitionFlipFromTop, animations: nil, completion: nil)
+        }
+        for i in images03 {
+            let number = Int.random(in: 1...9)
+            i.image = UIImage(named: "\(gameName!)_\(number)@4x")
+            let duration = Double.random(in: 0.2...0.4 )
+            UIView.transition(with: i, duration: duration , options: .transitionFlipFromTop, animations: nil, completion: nil)
+        }
+    }
+
+    
+    // MARK: - constraints
     fileprivate func activateConstraints() {
         mainStackView.snp.makeConstraints { make in
             make.top.equalTo(view).offset(60)
             make.leading.equalTo(view).offset(103)
             make.trailing.equalTo(rightMenu.snp.leading).offset(-45)
+            make.height.equalTo(300)
         }
         winMoneyLabel.snp.makeConstraints { make in
             make.top.equalTo(mainStackView.snp.bottom).offset(15)
@@ -161,6 +263,30 @@ class PlayingViewController: ParentViewController {
         }
     }
     
+    func assignImages(number:Int, image:UIImageView) {
+        switch number {
+        case 1:
+            image.image = UIImage(named: "\(gameName!)_\(number)@4x")
+        case 2:
+            image.image = UIImage(named: "\(gameName!)_\(number)@4x")
+        case 3:
+            image.image = UIImage(named: "\(gameName!)_\(number)@4x")
+        case 4:
+            image.image = UIImage(named: "\(gameName!)_\(number)@4x")
+        case 5:
+            image.image = UIImage(named: "\(gameName!)_\(number)@4x")
+        case 6:
+            image.image = UIImage(named: "\(gameName!)_\(number)@4x")
+        case 7:
+            image.image = UIImage(named: "\(gameName!)_\(number)@4x")
+        case 8:
+            image.image = UIImage(named: "\(gameName!)_\(number)@4x")
+        case 9:
+            image.image = UIImage(named: "\(gameName!)_\(number)@4x")
+        default:
+            print("error")
+        }
+    }
     
     
 // MARK: - rotate

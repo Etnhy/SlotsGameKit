@@ -7,8 +7,10 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 class MainMenuHUD: UIView {
+    
     
     fileprivate var profileImage: UIImageView = {
         var profile = UIImageView()
@@ -32,7 +34,7 @@ class MainMenuHUD: UIView {
     
     lazy var moneyCount: UILabel = {
        var label = UILabel()
-        label.text = "123456"
+//        label.text = "123456"
         label.textColor = .white
         label.font = .systemFont(ofSize: 18, weight: .bold)
         return label
