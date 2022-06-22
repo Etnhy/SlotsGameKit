@@ -16,9 +16,10 @@ class MainViewController: UIViewController {
         return hud
     }()
     
-    let chooseGameView: ChooseGame = {
+    lazy var chooseGameView: ChooseGame = {
         var game = ChooseGame()
-        
+        game.popularButton.addTarget(self, action: #selector(selectGamesButton(_:)), for: .touchUpInside)
+        game.allgamesButton.addTarget(self, action: #selector(selectGamesButton(_:)), for: .touchUpInside)
         return game
     }()
     
@@ -39,12 +40,17 @@ class MainViewController: UIViewController {
         view.addSubview(topView)
         view.addSubview(chooseGameView)
         
+        
         activateConstraints()
     }
     
     // MARK: - Actions
     @objc fileprivate func goToPlay() {
         
+    }
+    
+    @objc fileprivate func selectGamesButton(_ sender: UIButton) {
+        print(sender.tag)
     }
     // MARK: - activateConstraints()
 

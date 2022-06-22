@@ -11,6 +11,7 @@ import SnapKit
 
 class ChooseGame: UIView {
 
+    fileprivate var viewsHidden = false
     
     let containerView: UIView =  {
         var view = UIView()
@@ -26,6 +27,8 @@ class ChooseGame: UIView {
         button.separatorView.isHidden = false
         
         button.addTarget(self, action: #selector(isButtonTapped(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(changeViews(_:)), for: .touchUpInside)
+
         return button
     }()
     
@@ -34,9 +37,26 @@ class ChooseGame: UIView {
         button.setTitle("All Games", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         button.tag = 1
+        button.setTitleColor(UIColor(named: "unselectedButtonColor"), for: .normal)
+        
         button.addTarget(self, action: #selector(isButtonTapped(_:)), for: .touchUpInside)
-        button.setTitleColor(UIColor.white.withAlphaComponent(0.4), for: .normal)
+        button.addTarget(self, action: #selector(changeViews(_:)), for: .touchUpInside)
+
         return button
+    }()
+    
+    
+    lazy var populate: PopulateGameView = {
+        var populate = PopulateGameView()
+        populate.isHidden = false
+        return populate
+    }()
+    
+    lazy var allGames: AllGamesView = {
+        var allGames = AllGamesView()
+        allGames.isHidden = true
+
+        return allGames
     }()
     
     
@@ -56,6 +76,8 @@ class ChooseGame: UIView {
     fileprivate func addSubviews() {
         addSubview(popularButton)
         addSubview(allgamesButton)
+        addSubview(populate)
+        addSubview(allGames)
         activateConstraints()
     }
     // MARK: - Action
@@ -66,11 +88,11 @@ class ChooseGame: UIView {
                 popularButton.setTitleColor(UIColor.white, for: .normal)
                 
                 allgamesButton.separatorView.isHidden = true
-                allgamesButton.setTitleColor(UIColor.white.withAlphaComponent(0.4), for: .normal)
+                allgamesButton.setTitleColor(UIColor(named: "unselectedButtonColor"), for: .normal)
 
             } else if sender.tag == 1 {
                 popularButton.separatorView.isHidden = true
-                popularButton.setTitleColor(UIColor.white.withAlphaComponent(0.4), for: .normal)
+                popularButton.setTitleColor(UIColor(named: "unselectedButtonColor"), for: .normal)
 
 
                 allgamesButton.separatorView.isHidden = false
@@ -78,6 +100,17 @@ class ChooseGame: UIView {
 
             }
         }
+    }
+    @objc fileprivate func changeViews(_ sender: UIButton) {
+        if sender.tag == 0 {
+            populate.isHidden = false
+            allGames.isHidden = true
+        } else {
+            populate.isHidden = true
+            allGames.isHidden = false
+
+        }
+        
     }
     
     // MARK: - constraints
@@ -91,6 +124,18 @@ class ChooseGame: UIView {
             make.top.equalTo(self).offset(29)
             make.trailing.equalTo(-81)
             make.size.equalTo(CGSize(width: 100, height: 24))
+        }
+        
+        populate.snp.makeConstraints { make in
+            make.top.equalTo(popularButton.snp.bottom).offset(42)
+            make.leading.trailing.equalTo(self)
+            make.bottom.equalTo(self)
+        }
+        allGames.snp.makeConstraints { make in
+            make.top.equalTo(allgamesButton.snp.bottom).offset(42)
+            make.leading.trailing.equalTo(self)
+            make.bottom.equalTo(self)
+
         }
         
         

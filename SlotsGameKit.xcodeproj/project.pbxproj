@@ -14,6 +14,7 @@
 		6007F465286249B8003872B7 /* SpinButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6007F464286249B8003872B7 /* SpinButton.swift */; };
 		60C46A8A286344AD00F50630 /* MainMenuHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C46A89286344AD00F50630 /* MainMenuHUD.swift */; };
 		60C46A8C28634A8100F50630 /* ChooseGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C46A8B28634A8100F50630 /* ChooseGame.swift */; };
+		60C46A912863597200F50630 /* GamesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C46A902863597200F50630 /* GamesView.swift */; };
 		60E9D26128620BC30095CA93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E9D26028620BC30095CA93 /* AppDelegate.swift */; };
 		60E9D26328620BC30095CA93 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E9D26228620BC30095CA93 /* SceneDelegate.swift */; };
 		60E9D26528620BC30095CA93 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E9D26428620BC30095CA93 /* MainViewController.swift */; };
@@ -31,6 +32,7 @@
 		6007F464286249B8003872B7 /* SpinButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinButton.swift; sourceTree = "<group>"; };
 		60C46A89286344AD00F50630 /* MainMenuHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuHUD.swift; sourceTree = "<group>"; };
 		60C46A8B28634A8100F50630 /* ChooseGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseGame.swift; sourceTree = "<group>"; };
+		60C46A902863597200F50630 /* GamesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesView.swift; sourceTree = "<group>"; };
 		60E9D25D28620BC30095CA93 /* SlotsGameKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlotsGameKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E9D26028620BC30095CA93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		60E9D26228620BC30095CA93 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				6007F45F28623F5E003872B7 /* RightMenu.swift */,
 				6007F46228624292003872B7 /* Stepper.swift */,
 				60C46A8B28634A8100F50630 /* ChooseGame.swift */,
+				60C46A902863597200F50630 /* GamesView.swift */,
 				6007F464286249B8003872B7 /* SpinButton.swift */,
 				60C46A89286344AD00F50630 /* MainMenuHUD.swift */,
 			);
@@ -242,6 +245,7 @@
 			files = (
 				6007F465286249B8003872B7 /* SpinButton.swift in Sources */,
 				60C46A8C28634A8100F50630 /* ChooseGame.swift in Sources */,
+				60C46A912863597200F50630 /* GamesView.swift in Sources */,
 				60E9D26528620BC30095CA93 /* MainViewController.swift in Sources */,
 				6007F46328624292003872B7 /* Stepper.swift in Sources */,
 				6007F45E28622934003872B7 /* PlayingViewController.swift in Sources */,
