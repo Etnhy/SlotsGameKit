@@ -9,16 +9,29 @@ import UIKit
 import SnapKit
 
 class PlayingViewController: ParentViewController {
-
+    
     var gameName: String!
-
+    
     fileprivate let spacingStackView: CGFloat = 30
     fileprivate let imagesNames: Int = 9
     
+    fileprivate var money: Int = 1000 {
+        willSet {
+            if money <= 0 {
+                checkPrice()
+            }
+        }
+    }
 
+    fileprivate var spinPrice: Int = 50 {
+        didSet {
+            self.rightMenu.stepper.betweenTitle.text = "\(spinPrice)"
+        }
+    }
+    
     
     lazy var images01: [UIImageView] = {
-     var images = [UIImageView]()
+        var images = [UIImageView]()
         for i in 1...5 {
             var img = UIImageView()
             let num = Int.random(in: 1...imagesNames)
@@ -26,10 +39,10 @@ class PlayingViewController: ParentViewController {
             images.append(img)
         }
         
-       return images
+        return images
     }()
     lazy var images02: [UIImageView] = {
-     var images = [UIImageView]()
+        var images = [UIImageView]()
         for i in 1...5 {
             var img = UIImageView()
             let num = Int.random(in: 1...imagesNames)
@@ -37,11 +50,11 @@ class PlayingViewController: ParentViewController {
             images.append(img)
         }
         
-       return images
+        return images
     }()
     
     lazy var images03: [UIImageView] = {
-     var images = [UIImageView]()
+        var images = [UIImageView]()
         for i in 1...5 {
             var img = UIImageView()
             let num = Int.random(in: 1...imagesNames)
@@ -49,10 +62,10 @@ class PlayingViewController: ParentViewController {
             images.append(img)
         }
         
-       return images
+        return images
     }()
     
-        // MARK: -  slots stacks
+    // MARK: -  slots stacks
     lazy var StackView01: UIStackView = {
         var top = UIStackView(arrangedSubviews: images01) //makePackImages(name: gameName!)
         top.axis = .horizontal
@@ -97,13 +110,16 @@ class PlayingViewController: ParentViewController {
         label.textColor = .white
         return label
     }()
-
+    
     lazy var rightMenu: RightMenu = {
         var menu = RightMenu()
         menu.spinButton.addTarget(self, action: #selector(spinAndAssignImages), for: .touchUpInside)
+        menu.stepper.minusButton.addTarget(self, action: #selector(spinPriceDown), for: .touchUpInside)
+        menu.stepper.plusButton.addTarget(self, action: #selector(spinPriceUp), for: .touchUpInside)
+        
         return menu
     }()
-
+    
     
     
     init(gameName: String?) {
@@ -118,21 +134,25 @@ class PlayingViewController: ParentViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-
+        
         view.backgroundColor = .cyan
         addSubviews()
-//        spinner()
-        
     }
-
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        userDefaults.set(money, forKey: "money_count")
+    }
+    
     
     func addSubviews() {
         view.addSubview(mainStackView)
         view.addSubview(winMoneyLabel)
         view.addSubview(rightMenu)
         rightMenu.moneyLabel.text = "\(money)"
+        self.rightMenu.stepper.betweenTitle.text = "\(spinPrice)"
         activateConstraints()
-        
+
     }
     
     
@@ -145,15 +165,15 @@ class PlayingViewController: ParentViewController {
             make.top.bottom.equalTo(view)
         }
     }
-        // MARK: - Actions
+    // MARK: - Actions
     @objc func spinAndAssignImages() {
         var firstSlots: [Int] = []
         var secondSlots: [Int] = []
         var thirdSlots: [Int] = []
-
-        self.money -= 100
-        rightMenu.moneyLabel.text = "\(money)"
+            
+            self.money -= spinPrice
         
+        rightMenu.moneyLabel.text = "\(money)"
         for i in images01 {
             let number = Int.random(in: 1...9)
             i.image = UIImage(named: "\(gameName!)_\(number)@4x")
@@ -186,39 +206,74 @@ class PlayingViewController: ParentViewController {
     
     func searchWin(slots: [Int]) {
         if slots[0] == slots[1] && slots[1] == slots[2] && slots[2] == slots[3] && slots[3] == slots[4] {
-            print("da dadb")
-            self.money += 1000
-            self.winMoneyLabel.text = "WIN +1000"
-            self.rightMenu.moneyLabel.text = "\(money)"
-
+            makeLabels(1000)
+            
             
         } else if slots[0] == slots[1] && slots[1] == slots[2] && slots[2] == slots[3] {
-            self.money += 700
-            self.winMoneyLabel.text = "WIN +700"
-            self.rightMenu.moneyLabel.text = "\(money)"
-
-
+            makeLabels(700)
+            
+            
         } else if slots[0] == slots[1] && slots[1] == slots[2] {
-            self.money += 500
-            self.winMoneyLabel.text = "WIN +500"
-            self.rightMenu.moneyLabel.text = "\(money)"
-
-
+            makeLabels(500)
+            
+            
         } else if slots[0] == slots[1] && slots[1] == slots[2] {
-            self.money += 300
-            self.winMoneyLabel.text = "WIN +300"
-            self.rightMenu.moneyLabel.text = "\(money)"
-
-
+            makeLabels(300)
+            
+            
         } else if slots[0] == slots[1]  {
-            self.money += 200
-            self.winMoneyLabel.text = "WIN +200"
-            self.rightMenu.moneyLabel.text = "\(money)"
+            makeLabels(100)
+        }
+        
+        
+    }
+    fileprivate func checkPrice() {
+        
+        let alert = UIAlertController(title: "Еще ?",
+                                      message: "Если хочешь сыграть еще жми повторить.", preferredStyle: .alert)
+        let repeatAction = UIAlertAction(title: "Повторить", style: .default) { alert in
+            self.spinPrice = 50
+            self.money = 1000
+            self.winMoneyLabel.text = ""
+            self.rightMenu.moneyLabel.text = "\(self.money)"
+        }
+        
+        
+        
+        let cancel = UIAlertAction(title: "Уйти", style: .destructive) { alert in
+            self.navigationController?.popToRootViewController(animated: true)
 
         }
+        alert.addAction(repeatAction)
+        alert.addAction(cancel)
+            self.present(alert, animated: true)
     }
     
-    fileprivate func makeLabels(_ money: Int) {
+    // MARK: -  Actions
+    @objc fileprivate func exitToMenu() {
+        print("exit")
+    }
+    @objc fileprivate func spinPriceUp() {
+        self.spinPrice = spinPrice * 2
+    }
+    @objc fileprivate func spinPriceDown() {
+        self.spinPrice = spinPrice / 2
+    }
+    
+    fileprivate func makeLabels(_ moneyInt: Int) {
+        switch spinPrice {
+        case 50...100:
+            self.money += moneyInt
+            self.winMoneyLabel.text = "WIN +\(moneyInt)"
+            self.rightMenu.moneyLabel.text = "\(money)"
+        case 200...400:
+            self.money += moneyInt * 3
+            self.winMoneyLabel.text = "WIN +\(moneyInt * 3)"
+            print(moneyInt)
+            self.rightMenu.moneyLabel.text = "\(money)"
+            
+        default: break
+        }
         
     }
     fileprivate func spinner() {
@@ -241,7 +296,7 @@ class PlayingViewController: ParentViewController {
             UIView.transition(with: i, duration: duration , options: .transitionFlipFromTop, animations: nil, completion: nil)
         }
     }
-
+    
     
     // MARK: - constraints
     fileprivate func activateConstraints() {
@@ -289,19 +344,19 @@ class PlayingViewController: ParentViewController {
     }
     
     
-// MARK: - rotate
-
+    // MARK: - rotate
+    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .landscapeLeft
     }
-
+    
     override var shouldAutorotate: Bool {
         return true
     }
-
+    
     fileprivate func configureViewRotation() {
         let value = UIInterfaceOrientation.landscapeLeft.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
-
+        
     }
 }

@@ -9,7 +9,8 @@ import UIKit
 
 class ParentViewController: UIViewController {
 
-    public var money: Int = 1000
+    let userDefaults = UserDefaults.standard
+
     
     override func viewDidLoad() {
         super.viewDidLoad()

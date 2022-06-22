@@ -8,12 +8,12 @@
 import UIKit
 import SnapKit
 
+
 class MainViewController: ParentViewController {
     
     
     let topView: MainMenuHUD = {
         var hud = MainMenuHUD()
-        
         return hud
     }()
     
@@ -40,6 +40,15 @@ class MainViewController: ParentViewController {
         //        navigationController?.navigationBar.isHidden = true
         
         setupView()
+    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        self.topView.moneyCount.text = "\(money)"
+//
+//    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.topView.moneyCount.text = "\(userDefaults.object(forKey: "money_count") ?? 1000)"
     }
     
     
