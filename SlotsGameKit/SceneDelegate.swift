@@ -20,9 +20,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         
-        let play = PlayingViewController()
+//        let play = PlayingViewController(gameName: "first")
         let main = MainViewController()
-        window.rootViewController = main
+        let nav = UINavigationController(rootViewController: main)
+        window.rootViewController = nav
         window.makeKeyAndVisible()
         
     }

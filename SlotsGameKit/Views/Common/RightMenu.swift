@@ -64,6 +64,10 @@ class RightMenu: UIView {
 
         activateConstraints()
     }
+    
+    override func layoutSubviews() {
+        self.roundCorners(corners: [.topLeft], radius: 60)
+    }
     @objc func textset() {
         print("works")
     }
@@ -107,4 +111,13 @@ class RightMenu: UIView {
         moneyView.layer.insertSublayer(gradient, at: 0)
 
     }
+}
+
+extension RightMenu {
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+         let mask = CAShapeLayer()
+         mask.path = path.cgPath
+         layer.mask = mask
+     }
 }

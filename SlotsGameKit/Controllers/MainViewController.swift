@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MainViewController: UIViewController {
+class MainViewController: ParentViewController {
     
 
     let topView: MainMenuHUD = {
@@ -19,19 +19,28 @@ class MainViewController: UIViewController {
     lazy var chooseGameView: ChooseGame = {
         var game = ChooseGame()
         game.popularButton.addTarget(self, action: #selector(selectGamesButton(_:)), for: .touchUpInside)
+        
         game.allgamesButton.addTarget(self, action: #selector(selectGamesButton(_:)), for: .touchUpInside)
+        
+        // populate games target
+        game.populate.containerImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToFirstGame(_:))))
+        
+        //all games targets
+        game.allGames.firstGame.containerImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToFirstGame(_:))))
+        game.allGames.secondGameContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToSecondGame(_:))))
+        game.allGames.thirdGameContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToThirdGame(_:))))
+
         return game
     }()
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//        navigationController?.navigationBar.isHidden = true
+
         setupView()
     }
-    
-    
-    fileprivate func setupView() {
+        fileprivate func setupView() {
         view.backgroundColor = UIColor(named: "background")!
         
         addSubviews()
@@ -52,6 +61,27 @@ class MainViewController: UIViewController {
     @objc fileprivate func selectGamesButton(_ sender: UIButton) {
         print(sender.tag)
     }
+    
+    @objc func goToFirstGame(_ sender: UITapGestureRecognizer) {
+        print("first game")
+        let firstGameVC = PlayingViewController(gameName: "first")
+        navigationController?.pushViewController(firstGameVC, animated: true)
+    }
+    @objc func goToSecondGame(_ sender: UITapGestureRecognizer) {
+        print("second game")
+        let firstGameVC = PlayingViewController(gameName: "second")
+        navigationController?.pushViewController(firstGameVC, animated: true)
+
+    }
+    
+    @objc func goToThirdGame(_ sender: UITapGestureRecognizer) {
+        print("third game")
+        let firstGameVC = PlayingViewController(gameName: "third")
+        navigationController?.pushViewController(firstGameVC, animated: true)
+
+    }
+    
+
     // MARK: - activateConstraints()
 
     fileprivate func activateConstraints() {
@@ -65,6 +95,19 @@ class MainViewController: UIViewController {
             make.bottom.equalTo(view)
         }
     }
+// MARK: - rotate
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
 
+    override var shouldAutorotate: Bool {
+        return true
+    }
+
+    fileprivate func configureViewRotation() {
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+
+    }
 }
 
