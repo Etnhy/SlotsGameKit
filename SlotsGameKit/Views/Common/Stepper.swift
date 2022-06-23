@@ -52,7 +52,6 @@ class Stepper: UIView {
 
         addSubview(minusButton)
         addSubview(betweenTitle)
-//
         addSubview(plusButton)
         
         minusButton.snp.makeConstraints { make in
