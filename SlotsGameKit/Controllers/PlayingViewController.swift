@@ -17,7 +17,7 @@ class PlayingViewController: ParentViewController {
     
     fileprivate var money: Int = 1000 {
         willSet {
-            if money <= 0 {
+            if money <= spinPrice {
                 checkPrice()
             }
         }
@@ -135,7 +135,8 @@ class PlayingViewController: ParentViewController {
         super.viewDidLoad()
         AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
         setupView()
-        
+//        self.rightMenu.moneyLabel.text = "\(userDefaults.object(forKey: "money_count") ?? 1000)"
+        self.money = userDefaults.object(forKey: "money_count") as! Int
         view.backgroundColor = .cyan
         addSubviews()
     }
@@ -243,6 +244,10 @@ class PlayingViewController: ParentViewController {
         
         let cancel = UIAlertAction(title: "Уйти", style: .destructive) { alert in
             self.navigationController?.popToRootViewController(animated: true)
+            self.spinPrice = 50
+            self.money = 1000
+            self.winMoneyLabel.text = ""
+
 
         }
         alert.addAction(repeatAction)
@@ -344,21 +349,5 @@ class PlayingViewController: ParentViewController {
             print("error")
         }
     }
-    
-    
-    // MARK: - rotate
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .landscapeLeft
-    }
-    
-    override var shouldAutorotate: Bool {
-        return true
-    }
-    
-    fileprivate func configureViewRotation() {
-        let value = UIInterfaceOrientation.landscapeLeft.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
-        
-    }
+
 }
