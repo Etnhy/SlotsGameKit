@@ -133,6 +133,7 @@ class PlayingViewController: ParentViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
         setupView()
         
         view.backgroundColor = .cyan
@@ -305,6 +306,7 @@ class PlayingViewController: ParentViewController {
             make.leading.equalTo(view).offset(103)
             make.trailing.equalTo(rightMenu.snp.leading).offset(-45)
             make.height.equalTo(300)
+            make.width.equalTo(440)
         }
         winMoneyLabel.snp.makeConstraints { make in
             make.top.equalTo(mainStackView.snp.bottom).offset(15)

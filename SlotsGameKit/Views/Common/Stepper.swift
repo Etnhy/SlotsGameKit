@@ -56,7 +56,6 @@ class Stepper: UIView {
         addSubview(plusButton)
         
         minusButton.snp.makeConstraints { make in
-//            make.centerY.equalTo(betweenTitle)
             make.top.equalTo(self)
             make.trailing.equalTo(betweenTitle.snp.leading).offset(-16)
             make.size.equalTo(CGSize(width: 33, height: 33))

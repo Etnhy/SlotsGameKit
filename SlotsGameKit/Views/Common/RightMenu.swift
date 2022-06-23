@@ -9,9 +9,7 @@ import UIKit
 import SnapKit
 
 class RightMenu: UIView {
-        // MARK: - money label
-    
-//    var money = Money()
+    // MARK: - money label
     
     lazy var moneyLabel: UILabel = {
         var view = UILabel()
@@ -61,7 +59,6 @@ class RightMenu: UIView {
         addSubview(stepper)
         addSubview(topChest)
         addSubview(moneyView)
-//        moneyLabel.text = "\(money.money)"
         moneyView.addSubview(moneyLabel)
         setGradientMoneyView()
 
